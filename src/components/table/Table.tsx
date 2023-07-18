@@ -1,10 +1,22 @@
 import NoData from 'components/noData/NoData';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { BiEditAlt, BiTrash } from 'react-icons/bi';
 
 // , containsText, setContainsText
 const Table = (props: { list: Array<string>; titleList: Array<string> }) => {
-  const [colSpan] = useState(Object.keys(props.list?.length > 0 && props.list[0]).length + 1);
+  const [colSpan, setColSpan] = useState<Number>(0);
+
+  useEffect(() => {
+    const colSpanControl = () => {
+      let columnLength =
+        props.list?.length > 0 ? Object.keys(props.list[0]).length : props.titleList.length;
+      setColSpan(columnLength);
+    };
+
+    return () => {
+      colSpanControl();
+    };
+  }, [props.list, props.titleList]);
 
   const renderTableTitles = () => {
     return (
@@ -42,8 +54,10 @@ const Table = (props: { list: Array<string>; titleList: Array<string> }) => {
 
   return (
     <table>
-      <thead>{props.titleList ? renderTableTitles() : <NoData colSpan={colSpan} />}</thead>
-      <tbody>{props.list ? renderTableRows() : <NoData colSpan={colSpan} />}</tbody>
+      <thead>{props.titleList ? renderTableTitles() : ''}</thead>
+      <tbody>
+        {props.list && props.list.length > 0 ? renderTableRows() : <NoData colSpan={colSpan} />}
+      </tbody>
     </table>
   );
 };

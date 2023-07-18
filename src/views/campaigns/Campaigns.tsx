@@ -13,7 +13,7 @@ const Campaigns = () => {
   // search
   let [containsText, setContainsText] = useState('');
 
-  // fetch Data 
+  // fetch Data
   useEffect(() => {
     const getData = () => {
       fetch('https://jsonplaceholder.typicode.com/posts')
@@ -28,7 +28,6 @@ const Campaigns = () => {
       getData();
     };
   }, []);
- 
 
   if (viewState === globalViewStates.LOADING) {
     return <Loading />;

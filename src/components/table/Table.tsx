@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import 'boxicons';
 import { ICampaign } from 'interfaces/ICampaıgn';
 import React, { useEffect, useState } from 'react';
-import { BiSolidCheckCircle, BiXCircle } from 'react-icons/bi';
+import { BsXCircleFill, BsFillCheckCircleFill, BsXLg } from 'react-icons/bs';
 import Flatpickr from 'react-flatpickr';
 
 const Table = (props: {
@@ -55,16 +55,25 @@ const Table = (props: {
             return (
               columnIndex !== 0 && (
                 <td key={columnIndex}>
-                  <b className="inline md:hidden">{props.titleList[columnIndex - 1]} </b>
+                  <span className="flex">
+                    <b className="inline-block md:hidden min-w-max mr-3">
+                      {props.titleList[columnIndex - 1]}
+                      {':'}
+                    </b>
 
-                  {columnIndex === 4 ? formatter.format(column) : column}
+                    {columnIndex === 4 ? formatter.format(column) : column}
+                  </span>
                 </td>
               )
             );
           })}
           <td>
-            <b className="inline md:hidden">{props.titleList[columns.length - 1]} </b>
-            {dateStatus(columns[2], columns[3])}
+            <span className="flex">
+              <b className="inline-block md:hidden min-w-max mr-3">
+                {props.titleList[columns.length - 1]}{' '}
+              </b>
+              {dateStatus(columns[2], columns[3])}
+            </span>
           </td>
         </tr>
       );
@@ -76,8 +85,8 @@ const Table = (props: {
     return (
       <tr>
         <th colSpan={8}>
-          <div className="flex items-center justify-start">
-            <div className="flex items-end">
+          <div className="flex items-center justify-center sm:justify-start">
+            <div className="flex flex-wrap justify-center sm:items-end ">
               <span className="mr-3">
                 <input
                   value={props.containsText}
@@ -103,9 +112,13 @@ const Table = (props: {
                   }}
                   className="flat-picker"
                 />
-              </span>
+                {props.startDate && (
+                  <BsXLg
+                    onClick={() => props.setStartDate('')}
+                    className="inline-block -ml-4 text-red-600 mr-1 -mt-1 cursor-pointer"
+                  />
+                )}
 
-              <span>
                 <Flatpickr
                   data-enable-time
                   value={props.endDate}
@@ -121,6 +134,12 @@ const Table = (props: {
                   }}
                   className="flat-picker"
                 />
+                {props.endDate && (
+                  <BsXLg
+                    onClick={() => props.setEndDate('')}
+                    className="inline-block -ml-4 text-red-600 mr-1 -mt-1 cursor-pointer"
+                  />
+                )}
               </span>
             </div>
           </div>
@@ -140,14 +159,14 @@ const Table = (props: {
     const currentDate = new Date().getTime();
     let status: any = (
       <span className="flex justify-end">
-        <BiXCircle className="text-red-600 text-xl mr-1 mt-0.5" /> Inactive
+        <BsXCircleFill className="text-red-600 text-lg mr-2 mt-0.5" /> Inactive
       </span>
     );
 
     if (startDate < currentDate && endDate > currentDate) {
       status = (
         <span className="flex justify-end">
-          <BiSolidCheckCircle className="text-green-600 text-xl mr-1 mt-0.5" /> Active
+          <BsFillCheckCircleFill className="text-green-600 text-lg mr-2 mt-0.5" /> Active
         </span>
       );
     }

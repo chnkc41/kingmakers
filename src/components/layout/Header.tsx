@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <header className="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-5">
+    <header className="flex flex-wrap items-center justify-between px-4 sm:px-6 lg:px-8 py-5">
       <Link to="/">
-        <img src={kingMakersLogo} className="w-48" alt="kingmakers logo" />
+        <img src={kingMakersLogo} className="w-32 sm:w-48 inline-block pr-2" alt="kingmakers logo" />
       </Link>
       <div className="mr-5">
         <ThemeMode />

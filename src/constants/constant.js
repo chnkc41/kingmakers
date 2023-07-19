@@ -1,15 +1,15 @@
-export const APP_ROOT = 'api-url';
+export const APP_ROOT = 'http://localhost:3010';
 
 export const urls = {
-  URL_CAMPAIGNS: `${APP_ROOT}/campaigns`
+  URL_CAMPAIGN: `${APP_ROOT}/campaign`
 };
 
 export const globalViewStates = {
   DEFAULT: 'DEFAULT',
-  LOADING: 'LOADING', 
+  LOADING: 'LOADING',
   ERROR: 'ERROR',
-  DONE: 'DONE', 
+  DONE: 'DONE',
   REDIRECT: 'REDIRECT'
 };
 
-export const campaignTitleList = ['Name', 'Start date', 'End date', 'Status', 'Budget'];
+export const campaignTitleList = ['Name', 'Start date', 'End date', 'Budget', 'Status'];

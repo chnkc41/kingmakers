@@ -1,6 +1,5 @@
 import NoData from 'components/noData/NoData';
 import { format } from 'date-fns';
-import 'boxicons';
 import { ICampaign } from 'interfaces/ICampaıgn';
 import React, { useEffect, useState } from 'react';
 import { BsXCircleFill, BsFillCheckCircleFill, BsXLg } from 'react-icons/bs';

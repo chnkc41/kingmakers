@@ -51,8 +51,12 @@ const Campaigns = () => {
       fetch(apiUrl)
         .then((response) => response.json())
         .then((data: Array<ICampaign>) => {
-          setFilteredCampaignList(data);
-          setCampaignList(data);
+          const filteredData = data.filter((item) => {
+            return new Date(item.endDate).getTime() > new Date(item.startDate).getTime();
+          });
+
+          setFilteredCampaignList(filteredData);
+          setCampaignList(filteredData);
           setViewState(globalViewStates.DONE);
         });
     };
@@ -126,10 +130,14 @@ const Campaigns = () => {
 
   // @ts-ignore
   window.AddCampaigns = function (data: Array<ICampaign> = []) {
-    const newElements = campaignList.concat(data);
-    const newElementsByFiltered = filteredCampaignList.concat(data); 
-    
-    setCampaignList(newElements)
+    const filteredData = data.filter((item) => {
+      return new Date(item.endDate).getTime() > new Date(item.startDate).getTime();
+    });
+
+    const newElements = campaignList.concat(filteredData);
+    const newElementsByFiltered = filteredCampaignList.concat(filteredData);
+
+    setCampaignList(newElements);
     setDataShow(newElementsByFiltered);
     setFilteredCampaignList(newElementsByFiltered);
   };

@@ -12,7 +12,6 @@
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@types/react-flatpickr": "^3.8.8",
-    "boxicons": "^2.1.4",
     "date-fns": "^2.30.0",
     "json-server": "^0.17.3",
     "react": "^18.2.0",

@@ -4,7 +4,7 @@ import 'boxicons';
 import { ICampaign } from 'interfaces/ICampaıgn';
 import React, { useEffect, useState } from 'react';
 import { BiSolidCheckCircle, BiXCircle } from 'react-icons/bi';
-import Flatpickr from 'react-flatpickr'; 
+import Flatpickr from 'react-flatpickr';
 
 const Table = (props: {
   list: Array<ICampaign>;
@@ -16,8 +16,6 @@ const Table = (props: {
   setStartDate: (value: string) => void;
   endDate: string;
   setEndDate: (value: string) => void;
-
-  // search: Function;
 }) => {
   const [colSpan, setColSpan] = useState<number>(0);
 
@@ -101,7 +99,6 @@ const Table = (props: {
                     enableTime: false
                   }}
                   onChange={(e) => {
-                    console.log(format(new Date(e.toString()), 'yyyy/MM/dd'));
                     props.setStartDate(format(new Date(e.toString()), 'yyyy/MM/dd'));
                   }}
                   className="flat-picker"
@@ -116,10 +113,10 @@ const Table = (props: {
                   options={{
                     altFormat: 'm-d-Y',
                     altInput: true,
+                    minDate: props.startDate,
                     enableTime: false
                   }}
                   onChange={(e) => {
-                    console.log(format(new Date(e.toString()), 'yyyy/MM/dd'));
                     props.setEndDate(format(new Date(e.toString()), 'yyyy/MM/dd'));
                   }}
                   className="flat-picker"

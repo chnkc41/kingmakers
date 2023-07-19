@@ -84,7 +84,7 @@ const Campaigns = () => {
   // }, [containsText, startDate, endDate]);
 
   const filterData = () => {
-    setPage(1)
+    setPage(1);
     if (containsText === '' || containsText === null) {
       if (startDate || endDate) {
         const filteredByDate = filterDate(campaignList);
@@ -123,6 +123,18 @@ const Campaigns = () => {
     });
     return filteredDate;
   };
+
+  // @ts-ignore
+  window.AddCampaigns = function (data: Array<ICampaign> = []) {
+    const newElements = campaignList.concat(data);
+    const newElementsByFiltered = filteredCampaignList.concat(data); 
+    
+    setCampaignList(newElements)
+    setDataShow(newElementsByFiltered);
+    setFilteredCampaignList(newElementsByFiltered);
+  };
+
+  // window.AddCampaigns([{"id":11,"name":"Cihan","startDate":"9/19/2017","endDate":"3/9/2025","Budget":88377}])
 
   if (viewState === globalViewStates.LOADING) {
     return <Loading />;

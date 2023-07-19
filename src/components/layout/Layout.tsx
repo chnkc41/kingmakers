@@ -5,7 +5,7 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <main className="border mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="border pb-5">
         {/* Content */}
         <Outlet />
       </main>

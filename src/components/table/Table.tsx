@@ -4,7 +4,7 @@ import 'boxicons';
 import { ICampaign } from 'interfaces/ICampaıgn';
 import React, { useEffect, useState } from 'react';
 import { BiSolidCheckCircle, BiXCircle } from 'react-icons/bi';
-import Flatpickr from 'react-flatpickr';
+import Flatpickr from 'react-flatpickr'; 
 
 const Table = (props: {
   list: Array<ICampaign>;
@@ -21,6 +21,7 @@ const Table = (props: {
 }) => {
   const [colSpan, setColSpan] = useState<number>(0);
 
+  // Colspan
   useEffect(() => {
     const colSpanControl = () => {
       let columnLength =
@@ -33,6 +34,7 @@ const Table = (props: {
     };
   }, [props.list, props.titleList]);
 
+  // Table Title
   const renderTableTitles = () => {
     return (
       <tr>
@@ -43,6 +45,35 @@ const Table = (props: {
     );
   };
 
+  // Table Body Rows
+  const renderTableRows = () => {
+    // dataShow
+    // return props.list?.map((row, index) => {
+    return props.list?.map((row, index) => {
+      let columns = Object.values(row);
+      return (
+        <tr key={index}>
+          {columns.map((column, columnIndex) => {
+            return (
+              columnIndex !== 0 && (
+                <td key={columnIndex}>
+                  <b className="inline md:hidden">{props.titleList[columnIndex - 1]} </b>
+
+                  {columnIndex === 4 ? formatter.format(column) : column}
+                </td>
+              )
+            );
+          })}
+          <td>
+            <b className="inline md:hidden">{props.titleList[columns.length - 1]} </b>
+            {dateStatus(columns[2], columns[3])}
+          </td>
+        </tr>
+      );
+    });
+  };
+
+  // Table Search
   const searchSection = () => {
     return (
       <tr>
@@ -126,41 +157,18 @@ const Table = (props: {
     return status;
   };
 
-  const renderTableRows = () => {
-    return props.list?.map((row, index) => {
-      let columns = Object.values(row);
-      return (
-        <tr key={index}>
-          {columns.map((column, columnIndex) => {
-            return (
-              columnIndex !== 0 && (
-                <td key={columnIndex}>
-                  <b className="inline md:hidden">{props.titleList[columnIndex - 1]} </b>
-
-                  {columnIndex === 4 ? formatter.format(column) : column}
-                </td>
-              )
-            );
-          })}
-          <td>
-            <b className="inline md:hidden">{props.titleList[columns.length - 1]} </b>
-            {dateStatus(columns[2], columns[3])}
-          </td>
-        </tr>
-      );
-    });
-  };
-
   return (
-    <table>
-      <thead>
-        {props.filter && searchSection()}
-        {props.titleList && renderTableTitles()}
-      </thead>
-      <tbody>
-        {props.list && props.list.length > 0 ? renderTableRows() : <NoData colSpan={colSpan} />}
-      </tbody>
-    </table>
+    <>
+      <table>
+        <thead>
+          {props.filter && searchSection()}
+          {props.titleList && renderTableTitles()}
+        </thead>
+        <tbody>
+          {props.list && props.list.length > 0 ? renderTableRows() : <NoData colSpan={colSpan} />}
+        </tbody>
+      </table>
+    </>
   );
 };
 

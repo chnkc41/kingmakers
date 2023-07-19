@@ -4,6 +4,7 @@ import Table from 'components/table/Table';
 import { campaignTitleList, globalViewStates, urls } from 'constants/constant';
 import { ICampaign } from 'interfaces/ICampaıgn';
 import { format } from 'date-fns';
+import Pagination from 'components/table/Pagination';
 
 // import axios from 'axios';
 
@@ -17,6 +18,32 @@ const Campaigns = () => {
   let [containsText, setContainsText] = useState('');
   let [startDate, setStartDate] = useState<string>('');
   let [endDate, setEndDate] = useState<string>('');
+
+  // paginate
+  let [page, setPage] = useState<number>(1);
+  let [limit, setLimit] = useState<number>(5);
+  const [dataShow, setDataShow] = useState<Array<ICampaign>>([]);
+
+  useEffect(() => {
+    const initDataShow =
+      limit && filteredCampaignList
+        ? filteredCampaignList.slice(0, Number(limit))
+        : filteredCampaignList;
+    // debugger
+    setDataShow(initDataShow);
+  }, [filteredCampaignList]);
+
+  useEffect(() => {
+    const start = Number(limit) * (page - 1);
+    const end = start + Number(limit);
+    setDataShow(filteredCampaignList.slice(start, end));
+  }, [page]);
+
+  useEffect(() => {
+    const start = 0;
+    const end = Number(limit);
+    setDataShow(filteredCampaignList.slice(start, end));
+  }, [limit]);
 
   // fetch Data
   useEffect(() => {
@@ -57,6 +84,7 @@ const Campaigns = () => {
   // }, [containsText, startDate, endDate]);
 
   const filterData = () => {
+    setPage(1)
     if (containsText === '' || containsText === null) {
       if (startDate || endDate) {
         const filteredByDate = filterDate(campaignList);
@@ -103,7 +131,8 @@ const Campaigns = () => {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <Table
-        list={filteredCampaignList}
+        // list={filteredCampaignList}
+        list={dataShow}
         titleList={campaignTitleList}
         containsText={containsText}
         setContainsText={setContainsText}
@@ -112,6 +141,14 @@ const Campaigns = () => {
         endDate={endDate}
         setEndDate={setEndDate}
         filter={true}
+      />
+
+      <Pagination
+        limit={limit}
+        setLimit={setLimit}
+        totalPosts={filteredCampaignList.length}
+        page={page}
+        setPage={setPage}
       />
     </div>
   );

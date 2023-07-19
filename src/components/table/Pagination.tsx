@@ -23,7 +23,7 @@ const Pagination = (props: {
             {props.page} of {pageNumbers.length}
           </strong>
           <select
-            className="input-main !w-28 ml-3 border-gray-300 !mt-0"
+            className="input-main !w-28 ml-3 border-gray-300 !mt-0 !py-1 !text-center"
             value={props.limit}
             // defaultValue={10}
             onChange={(e) => {
@@ -69,7 +69,7 @@ const Pagination = (props: {
                 size="xs"
                 key={number}
                 className={`btn-basic !rounded-none !border-r-0 !h-10
-                  ${props.page === number ? '!bg-indigo-600 dark:!bg-indigo-500 text-white' : ''}
+                  ${props.page === number ? '!bg-red-600 dark:!bg-red-500 text-white' : ''}
                 `}
                 onClick={() => props.setPage(number)}
               >

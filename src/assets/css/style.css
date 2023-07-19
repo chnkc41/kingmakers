@@ -25,16 +25,21 @@
   }
 
   /* Table */
+  body {
+    @apply text-gray-700 dark:text-gray-300 text-sm bg-white dark:bg-slate-950;
+  }
+
+  /* Table */
   table {
-    @apply min-w-full divide-y divide-gray-300 table-fixed;
+    @apply min-w-full divide-y divide-gray-300 dark:divide-gray-700 table-fixed;
   }
 
   table thead tr th {
-    @apply capitalize px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden md:table-cell;
+    @apply capitalize px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-100 hidden md:table-cell;
   }
 
   table thead tr th:first-of-type {
-    @apply py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0 table-cell;
+    @apply py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-0 table-cell;
   }
 
   table thead tr th:last-of-type {
@@ -42,16 +47,16 @@
   }
   /* Table Body */
   table tbody {
-    @apply divide-y divide-gray-200 bg-white;
+    @apply divide-y divide-gray-200 dark:divide-gray-700;
   }
 
   /* hidden */
   table tbody tr td {
-    @apply block py-1.5 px-3 md:py-4 text-sm text-gray-500  md:table-cell w-1/5;
+    @apply block py-1.5 px-3 md:py-4 text-sm text-gray-500 dark:text-gray-400 md:table-cell w-1/5;
   }
 
   table tbody tr td:first-of-type {
-    @apply w-full md:w-auto text-sm font-medium text-gray-900 md:pl-0 uppercase;
+    @apply w-full md:w-auto text-sm font-medium text-gray-900 dark:text-gray-400 md:pl-0 uppercase;
   }
 
   table tbody tr td:last-of-type {
@@ -60,9 +65,13 @@
 }
 
 /************************************ Forms ************************************/
+.input-main {
+  @apply appearance-none block w-full px-3 py-2 !h-11 border border-gray-300 dark:border-gray-700 rounded-md placeholder-gray-400 focus:outline-none 
+  focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 font-bold bg-transparent;
+}
 
 .input-borderless {
-  @apply w-28 pl-2 pt-2 pb-1.5 sm:leading-5 bg-transparent  text-sm dark:text-gray-300 border-b outline-none border-orange-500 focus:dark:border-cyan-800;
+  @apply w-28 pl-2 pt-2 pb-1.5 sm:leading-5 bg-transparent text-sm dark:text-gray-300 border-b outline-none border-red-700 focus:dark:border-cyan-800;
 }
 
 .btn-basic {
@@ -70,12 +79,7 @@
       dark:text-gray-200 border border-gray-300 dark:border-gray-700 outline-none px-3 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer;
 }
 
-.btn-main-outline {
-  @apply inline-flex items-center justify-center text-sm py-1.5 px-3 leading-5 rounded-md font-bold
-    bg-white focus:outline-none ease-out text-center cursor-pointer text-orange-600 hover:text-orange-500 border border-orange-400;
-}
-
 .flat-picker {
   @apply w-24 pl-2 pt-2 pb-1.5 sm:leading-5 bg-transparent cursor-pointer text-sm 
-         dark:text-gray-400 border-b border-orange-700 dark:border-orange-700 outline-none focus:border-cyan-500 focus:dark:border-cyan-800;
+         dark:text-gray-400 border-b border-red-700 dark:border-red-700 outline-none focus:border-cyan-500 focus:dark:border-cyan-800;
 }

@@ -1,4 +1,4 @@
-export const APP_ROOT = 'https://json-server-vercel-sigma-lake.vercel.app/campaign';
+export const APP_ROOT = 'https://json-server-vercel-sigma-lake.vercel.app';
 
 export const URLS = {
   URL_CAMPAIGN: `${APP_ROOT}/campaign`

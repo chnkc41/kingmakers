@@ -26,6 +26,9 @@ const Campaigns = () => {
   const [limit, setLimit] = useState<number>(5);
   const [dataShow, setDataShow] = useState<Array<ICampaign>>([]);
 
+  // New Camping Control
+  const [addCampaigns, setAddCampaigns] = useState<boolean>(false);
+
   useEffect(() => {
     const initDataShow =
       limit && filteredCampaignList
@@ -38,7 +41,7 @@ const Campaigns = () => {
     const start = Number(limit) * (page - 1);
     const end = start + Number(limit);
     setDataShow(filteredCampaignList.slice(start, end));
-  }, [page]);
+  }, [page, addCampaigns]);
 
   useEffect(() => {
     const start = 0;
@@ -137,7 +140,7 @@ const Campaigns = () => {
       }
     });
 
-    setPage(1);
+    setAddCampaigns(!addCampaigns);
 
     setCampaignList(newCampaignList);
     setFilteredCampaignList(newCampaignList);

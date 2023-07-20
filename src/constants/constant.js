@@ -1,10 +1,10 @@
 export const APP_ROOT = 'http://localhost:3010';
 
-export const urls = {
+export const URLS = {
   URL_CAMPAIGN: `${APP_ROOT}/campaign`
 };
 
-export const globalViewStates = {
+export const GLOBAL_VIEW_STATES = {
   DEFAULT: 'DEFAULT',
   LOADING: 'LOADING',
   ERROR: 'ERROR',
@@ -28,4 +28,9 @@ export const CONTROL_SIZES = {
   [SIZES.XL]: 17
 };
 
-export const campaignTitleList = ['Name', 'Start date', 'End date', 'Budget', 'Status'];
+export const CAMPAIGN_TITLE_LIST = ['Name', 'Start date', 'End date', 'Budget', 'Status'];
+
+export const STATUS = {
+  ACTIVE: "Active",
+  INACTIVE: "Inactive",
+}

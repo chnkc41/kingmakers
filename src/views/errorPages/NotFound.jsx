@@ -1,7 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 
-const NotFound = () => { 
+const NotFound = () => {
   return (
     <div className="not-found flex flex-col justify-center items-center text-center mt-24 py-20">
       <p className="mt-3 mb-6 md:text-5xl text-3xl font-bold">Page Not Found!</p>

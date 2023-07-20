@@ -1,9 +1,12 @@
-import NoData from 'components/noData/NoData';
-import { format } from 'date-fns';
-import { ICampaign } from 'interfaces/ICampaıgn';
-import React, { useEffect, useState } from 'react';
-import { BsXCircleFill, BsFillCheckCircleFill, BsXLg } from 'react-icons/bs';
+import { useEffect, useState } from 'react';
 import Flatpickr from 'react-flatpickr';
+import { format } from 'date-fns';
+import { BsXCircleFill, BsFillCheckCircleFill, BsXLg } from 'react-icons/bs';
+
+import NoData from 'components/noData/NoData';
+
+import { ICampaign } from 'interfaces/ICampaign';
+import { STATUS } from 'constants/constant';
 
 const Table = (props: {
   list: Array<ICampaign>;
@@ -44,8 +47,6 @@ const Table = (props: {
 
   // Table Body Rows
   const renderTableRows = () => {
-    // dataShow
-    // return props.list?.map((row, index) => {
     return props.list?.map((row, index) => {
       let columns = Object.values(row);
       return (
@@ -147,29 +148,31 @@ const Table = (props: {
     );
   };
 
+  // Formatting the currency
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD'
   });
 
+  // Status control - active & inactive
   const dateStatus = (startD: string, endD: string) => {
     const startDate = new Date(startD).getTime();
     const endDate = new Date(endD).getTime();
     const currentDate = new Date().getTime();
-    let status: any = (
-      <span className="flex justify-end">
-        <BsXCircleFill className="text-red-600 text-lg mr-2 mt-0.5" /> Inactive
-      </span>
-    );
 
     if (startDate < currentDate && endDate > currentDate) {
-      status = (
+      return (
         <span className="flex justify-end">
-          <BsFillCheckCircleFill className="text-green-600 text-lg mr-2 mt-0.5" /> Active
+          <BsFillCheckCircleFill className="text-green-600 text-lg mr-2 mt-0.5" /> {STATUS.ACTIVE}
+        </span>
+      );
+    } else {
+      return (
+        <span className="flex justify-end">
+          <BsXCircleFill className="text-red-600 text-lg mr-2 mt-0.5" /> {STATUS.INACTIVE}
         </span>
       );
     }
-    return status;
   };
 
   return (

@@ -1,6 +1,3 @@
-import React from 'react';
-import Button from 'components/button/Button.jsx';
-
 const Pagination = (props: {
   limit: number;
   setLimit: (value: number) => void;
@@ -25,7 +22,6 @@ const Pagination = (props: {
           <select
             className="input-main !w-28 ml-3 border-gray-300 !mt-0 !py-1 !text-center"
             value={props.limit}
-            // defaultValue={10}
             onChange={(e) => {
               props.setLimit(Number(e.target.value));
               props.setPage(1);
@@ -43,30 +39,27 @@ const Pagination = (props: {
           </select>
         </div>
 
-        <div className="mr-5 flex ">
-          <Button
-            size="xs"
+        <div className="overflow-auto pb-2">
+        <div className="flex w-full">
+          <button
             className="btn-basic !rounded-r-none !h-10"
             onClick={() => props.setPage(1)}
             disabled={props.page === 1}
           >
             {'<<'}
-          </Button>
+          </button>
 
-          {/*!rounded-none  */}
-          <Button
-            size="xs"
+          <button
             className="btn-basic !rounded-none !border-x-0 !h-10"
             onClick={() => props.setPage(props.page - 1)}
             disabled={props.page === 1}
           >
             {'<'}
-          </Button>
+          </button>
 
           {pageNumbers.map((number) => {
             return (
-              <Button
-                size="xs"
+              <button
                 key={number}
                 className={`btn-basic !rounded-none !border-r-0 !h-10
                   ${props.page === number ? '!bg-red-600 dark:!bg-red-500 text-white' : ''}
@@ -74,28 +67,26 @@ const Pagination = (props: {
                 onClick={() => props.setPage(number)}
               >
                 {number}
-              </Button>
+              </button>
             );
           })}
 
-          {/*!rounded-none  */}
-          <Button
-            size="xs"
+          <button
             className="btn-basic !rounded-none !border-r-0 !h-10"
             onClick={() => props.setPage(props.page + 1)}
             disabled={pageNumbers.length === props.page}
           >
             {'>'}
-          </Button>
+          </button>
 
-          <Button
-            size="xs"
+          <button
             className="btn-basic !rounded-l-none !h-10"
             onClick={() => props.setPage(pageNumbers.length)}
             disabled={pageNumbers.length === props.page}
           >
             {'>>'}
-          </Button>
+          </button>
+        </div>
         </div>
       </ul>
     </nav>

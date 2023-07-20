@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const ThemeMode = () => {
-  let [themeMode, setThemeMode] = useState<boolean>();
+  const [themeMode, setThemeMode] = useState<boolean>(false);
 
   useEffect(() => {
     if (localStorage.getItem('dark')) {
       document.documentElement.classList.add('dark');
-      themeMode = true;
+      setThemeMode(true);
     }
   }, []);
 
@@ -33,6 +33,8 @@ const ThemeMode = () => {
       aria-checked="true"
     >
       <span className="sr-only">Enable dark mode</span>
+
+      {/* Ideally instead of SVG, react-ıcons can be used */}
       <svg
         width="24"
         height="24"
@@ -42,9 +44,7 @@ const ThemeMode = () => {
           themeMode === true
             ? 'transform transition-transform scale-100 duration-300'
             : 'transform transition-transform scale-0 duration-500'
-        }`}
-        //className={`${themeMode === true ? "transform transition-transform scale-0 duration-500" : "transform transition-transform scale-100 duration-300"}`}
-      >
+        }`}>
         <path
           d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
           fill="currentColor"
@@ -66,7 +66,6 @@ const ThemeMode = () => {
         height="24"
         fill="none"
         aria-hidden="true"
-        //className={`${themeMode === true ? "ml-3.5 transform transition-transform scale-100 duration-300" : "ml-3.5 transform transition-transform scale-0 duration-500"}`}
         className={`${
           themeMode === true
             ? 'ml-3.5 transform transition-transform scale-0 duration-500'

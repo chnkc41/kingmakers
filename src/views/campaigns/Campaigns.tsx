@@ -1,27 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
+
 import Loading from 'components/loading/Loading';
 import Table from 'components/table/Table';
-import { campaignTitleList, globalViewStates, urls } from 'constants/constant';
-import { ICampaign } from 'interfaces/ICampaıgn';
-import { format } from 'date-fns';
 import Pagination from 'components/table/Pagination';
 
-// import axios from 'axios';
+import { CAMPAIGN_TITLE_LIST, GLOBAL_VIEW_STATES, URLS } from 'constants/constant';
+
+import { ICampaign } from 'interfaces/ICampaign';
 
 const Campaigns = () => {
-  const [viewState, setViewState] = useState(globalViewStates.LOADING);
-  const [apiUrl] = useState(urls.URL_CAMPAIGN);
+  const apiUrl = URLS.URL_CAMPAIGN;
+
+  const [viewState, setViewState] = useState(GLOBAL_VIEW_STATES.LOADING);
   const [campaignList, setCampaignList] = useState<Array<ICampaign>>([]);
   const [filteredCampaignList, setFilteredCampaignList] = useState<Array<ICampaign>>([]);
 
   // search
-  let [containsText, setContainsText] = useState('');
-  let [startDate, setStartDate] = useState<string>('');
-  let [endDate, setEndDate] = useState<string>('');
+  const [containsText, setContainsText] = useState('');
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
 
-  // paginate
-  let [page, setPage] = useState<number>(1);
-  let [limit, setLimit] = useState<number>(5);
+  // pagination
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(5);
   const [dataShow, setDataShow] = useState<Array<ICampaign>>([]);
 
   useEffect(() => {
@@ -29,7 +31,6 @@ const Campaigns = () => {
       limit && filteredCampaignList
         ? filteredCampaignList.slice(0, Number(limit))
         : filteredCampaignList;
-    // debugger
     setDataShow(initDataShow);
   }, [filteredCampaignList]);
 
@@ -45,19 +46,21 @@ const Campaigns = () => {
     setDataShow(filteredCampaignList.slice(start, end));
   }, [limit]);
 
-  // fetch Data
+  // Fetch Data for initial population
   useEffect(() => {
     const getData = () => {
       fetch(apiUrl)
         .then((response) => response.json())
         .then((data: Array<ICampaign>) => {
+          // Removing all those campaigns where the end date is before the start date.
           const filteredData = data.filter((item) => {
             return new Date(item.endDate).getTime() > new Date(item.startDate).getTime();
           });
 
-          setFilteredCampaignList(filteredData);
           setCampaignList(filteredData);
-          setViewState(globalViewStates.DONE);
+
+          setFilteredCampaignList(filteredData);
+          setViewState(GLOBAL_VIEW_STATES.DONE);
         });
     };
 
@@ -70,44 +73,24 @@ const Campaigns = () => {
     filterData();
   }, [containsText, startDate, endDate]);
 
-  // useEffect(() => {
-  //   const dateControl = () => {
-  //     const sDate = startDate && new Date(startDate).getTime();
-  //     const eDate = endDate && new Date(endDate).getTime();
-  //     // debugger;
-  //     if (eDate < sDate) {
-  //       alert('last date should be bigger than start date');
-  //     } else {
-  //       filterData();
-  //     }
-  //   };
-
-  //   return () => {
-  //     dateControl();
-  //   };
-  // }, [containsText, startDate, endDate]);
-
   const filterData = () => {
     setPage(1);
-    if (containsText === '' || containsText === null) {
-      if (startDate || endDate) {
-        const filteredByDate = filterDate(campaignList);
-        setFilteredCampaignList(filteredByDate);
-      } else {
-        setFilteredCampaignList(campaignList);
-      }
-    } else {
-      const filtered = campaignList.filter((item) =>
+
+    let filteredList: Array<ICampaign> = campaignList;
+
+    // If the name filter is set
+    if (containsText !== '' && containsText !== null) {
+      filteredList = filteredList.filter((item) =>
         item.name.toLowerCase().includes(containsText.toLowerCase().trim())
       );
-
-      if (startDate || endDate) {
-        const filteredByDate = filterDate(filtered);
-        setFilteredCampaignList(filteredByDate);
-      } else {
-        setFilteredCampaignList(filtered);
-      }
     }
+
+    // If the startDate & endDate filter is set
+    if (startDate || endDate) {
+      filteredList = filterDate(filteredList);
+    }
+
+    setFilteredCampaignList(filteredList);
   };
 
   const filterDate = (data: Array<ICampaign>) => {
@@ -124,13 +107,16 @@ const Campaigns = () => {
       } else if (eDate !== '') {
         return new Date(item.endDate) <= new Date(eDate);
       }
+      // Should never be the case
+      return undefined;
     });
+
     return filteredDate;
   };
- 
 
   // @ts-ignore
   window.AddCampaigns = function (data: Array<ICampaign> = []) {
+    // Filter out those campaigns whose end date is before the start date
     const filteredData = data.filter((item) => {
       return new Date(item.endDate).getTime() > new Date(item.startDate).getTime();
     });
@@ -138,34 +124,34 @@ const Campaigns = () => {
     const newCampaignList: Array<ICampaign> = campaignList;
     // If the campaign already exısts - overwrite else add the new campaign
     filteredData.forEach((filteredCampaign: ICampaign) => {
-        const indexControl = campaignList.findIndex((campaign: ICampaign) => campaign.id === filteredCampaign.id );
-  
-        // If the campaign is new
-        if (indexControl === -1) {
-          newCampaignList.push(filteredCampaign);
-        } else {
-          // If the campaign already exists - overwrite the campaign details
-          newCampaignList[indexControl] = filteredCampaign;
-        }
-    })
-   
+      const indexControl = campaignList.findIndex(
+        (campaign: ICampaign) => campaign.id === filteredCampaign.id
+      );
+
+      // If the campaign is new
+      if (indexControl === -1) {
+        newCampaignList.push(filteredCampaign);
+      } else {
+        // If the campaign already exists - overwrite the campaign details
+        newCampaignList[indexControl] = filteredCampaign;
+      }
+    });
+
+    setPage(1);
+
     setCampaignList(newCampaignList);
-    setDataShow(newCampaignList);
     setFilteredCampaignList(newCampaignList);
   };
 
-  // window.AddCampaigns([{"id":11,"name":"Cihan","startDate":"9/19/2017","endDate":"3/9/2025","Budget":88377}])
-
-  if (viewState === globalViewStates.LOADING) {
+  if (viewState === GLOBAL_VIEW_STATES.LOADING) {
     return <Loading />;
   }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <Table
-        // list={filteredCampaignList}
         list={dataShow}
-        titleList={campaignTitleList}
+        titleList={CAMPAIGN_TITLE_LIST}
         containsText={containsText}
         setContainsText={setContainsText}
         startDate={startDate}
